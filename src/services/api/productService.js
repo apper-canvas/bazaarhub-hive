@@ -69,13 +69,13 @@ async filterProducts(filters, sortBy = null) {
           case 'price':
             compareValue = a.price - b.price;
             break;
-          case 'rating':
 case 'rating':
             compareValue = a.rating - b.rating;
             break;
           case 'name':
             compareValue = (a.title || '').localeCompare(b.title || '');
             break;
+          default:
             compareValue = 0;
         }
         
