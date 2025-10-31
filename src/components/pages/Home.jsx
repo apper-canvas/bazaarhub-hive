@@ -79,9 +79,9 @@ const applyFilters = async () => {
     }
   };
 
-  const handleAddToCart = (product) => {
+const handleAddToCart = (product) => {
     onAddToCart(product);
-    toast.success(`${product.title} added to cart!`);
+    toast.success(`${product.title_c} added to cart!`);
   };
 
   if (loading) {

@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { getRouteConfig } from "./route.utils";
+import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
 
 const Home = lazy(() => import("@/components/pages/Home"));
@@ -20,64 +22,116 @@ const loadingFallback = (
   </div>
 );
 
+// Lazy load authentication pages
+const Login = lazy(() => import("@/pages/Login"));
+const Signup = lazy(() => import("@/pages/Signup"));
+const Callback = lazy(() => import("@/pages/Callback"));
+const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
+const PromptPassword = lazy(() => import("@/pages/PromptPassword"));
+
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={loadingFallback}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
 const mainRoutes = [
-  {
+  createRoute({
     path: "",
     index: true,
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <Home />
-      </Suspense>
-    )
-  },
-  {
+    element: <Home />
+  }),
+  createRoute({
     path: "product/:id",
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <ProductDetailPage />
-      </Suspense>
-    )
-  },
-  {
+    element: <ProductDetailPage />
+  }),
+  createRoute({
     path: "cart",
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <Cart />
-      </Suspense>
-    )
-  },
-  {
+    element: <Cart />
+  }),
+  createRoute({
     path: "checkout",
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <Checkout />
-      </Suspense>
-    )
-  },
-  {
+    element: <Checkout />
+  }),
+  createRoute({
     path: "order-confirmation",
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <OrderConfirmation />
-      </Suspense>
-    )
-  },
-  {
+    element: <OrderConfirmation />
+  }),
+  createRoute({
     path: "*",
-    element: (
-      <Suspense fallback={loadingFallback}>
-        <NotFound />
-      </Suspense>
-    )
-  }
+    element: <NotFound />
+  })
+];
+
+const authRoutes = [
+  createRoute({
+    path: "login",
+    element: <Login />
+  }),
+  createRoute({
+    path: "signup",
+    element: <Signup />
+  }),
+  createRoute({
+    path: "callback",
+    element: <Callback />
+  }),
+  createRoute({
+    path: "error",
+    element: <ErrorPage />
+  }),
+  createRoute({
+    path: "reset-password/:appId/:fields",
+    element: <ResetPassword />
+  }),
+  createRoute({
+    path: "prompt-password/:appId/:emailAddress/:provider",
+    element: <PromptPassword />
+  })
 ];
 
 const routes = [
   {
     path: "/",
-    element: <Layout />,
-    children: mainRoutes
+    element: <Root />,
+    children: [
+      {
+        path: "",
+        element: <Layout />,
+        children: mainRoutes
+      },
+      ...authRoutes
+    ]
   }
 ];
-
 export const router = createBrowserRouter(routes);

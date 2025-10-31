@@ -32,9 +32,9 @@ const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
         <div key={category.Id}>
           <button
             onClick={() => {
-              onCategoryChange(category.name);
+onCategoryChange(category.name_c);
               if (category.subcategories.length > 0) {
-                toggleCategory(category.name);
+                toggleCategory(category.name_c);
               }
             }}
             className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-between ${
@@ -43,8 +43,8 @@ const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
                 : "hover:bg-gray-100 text-gray-700"
             }`}
           >
-            <span className="flex items-center gap-2">
-              <span>{category.name}</span>
+<span className="flex items-center gap-2">
+              <span>{category.name_c}</span>
               <span className="text-xs opacity-70">({category.productCount})</span>
             </span>
             {category.subcategories.length > 0 && (
@@ -56,7 +56,7 @@ const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
           </button>
           
           <AnimatePresence>
-            {expandedCategories.has(category.name) && category.subcategories.length > 0 && (
+{expandedCategories.has(category.name_c) && category.subcategories.length > 0 && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}

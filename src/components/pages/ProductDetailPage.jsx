@@ -32,8 +32,8 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = (productData) => {
-    onAddToCart(productData);
-    toast.success(`${productData.title} added to cart!`);
+onAddToCart(productData);
+    toast.success(`${productData.title_c} added to cart!`);
   };
 
   const handleClose = () => {

@@ -22,7 +22,7 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
 
   const calculateTotal = () => {
-    const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+const subtotal = cartItems.reduce((total, item) => total + (item.price_c * item.quantity), 0);
     const tax = Math.round(subtotal * 0.18);
     return subtotal + tax;
   };
@@ -344,18 +344,18 @@ const Checkout = () => {
             <div className="space-y-4 mb-6">
               {cartItems.map((item) => (
                 <div key={item.Id} className="flex gap-3">
-                  <img
-                    src={item.images[0]}
-                    alt={item.title}
+<img
+                    src={item.images_c[0]}
+                    alt={item.title_c}
                     className="w-16 h-16 object-cover rounded-lg"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 line-clamp-2">
-                      {item.title}
+<p className="text-sm font-medium text-gray-900 line-clamp-2">
+                      {item.title_c}
                     </p>
                     <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                     <p className="text-sm font-semibold text-primary">
-                      ₹{(item.price * item.quantity).toLocaleString()}
+                      ₹{(item.price_c * item.quantity).toLocaleString()}
                     </p>
                   </div>
                 </div>

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
-import Header from "@/components/organisms/Header";
 import CartSidebar from "@/components/organisms/CartSidebar";
+import Header from "@/components/organisms/Header";
 
 const Layout = () => {
   const [cartItems, setCartItems] = useState([]);

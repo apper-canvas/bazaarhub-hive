@@ -51,16 +51,16 @@ const Cart = () => {
             >
               <div className="flex gap-6">
                 <img
-                  src={item.images[0]}
-                  alt={item.title}
+src={item.images_c[0]}
+                  alt={item.title_c}
                   className="w-32 h-32 object-cover rounded-lg"
                 />
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">{item.brand}</p>
+<p className="text-sm text-gray-500 mb-1">{item.brand_c}</p>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                        {item.title}
+                        {item.title_c}
                       </h3>
                     </div>
                     <button
@@ -71,7 +71,7 @@ const Cart = () => {
                     </button>
                   </div>
                   <p className="text-2xl font-bold text-primary mb-4">
-                    ₹{item.price.toLocaleString()}
+₹{item.price_c.toLocaleString()}
                   </p>
                   <div className="flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">Quantity:</span>
@@ -95,7 +95,7 @@ const Cart = () => {
                     <div className="ml-auto text-right">
                       <p className="text-sm text-gray-600 mb-1">Subtotal</p>
                       <p className="text-xl font-bold text-gray-900">
-                        ₹{(item.price * item.quantity).toLocaleString()}
+₹{(item.price_c * item.quantity).toLocaleString()}
                       </p>
                     </div>
                   </div>

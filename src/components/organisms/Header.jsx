@@ -4,7 +4,10 @@ import ApperIcon from "@/components/ApperIcon";
 import SearchBar from "@/components/molecules/SearchBar";
 import { motion } from "framer-motion";
 
+import { useAuth } from "@/layouts/Root";
+
 const Header = ({ cartItemCount = 0, onMenuClick }) => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleSearch = (query) => {
@@ -40,6 +43,15 @@ const Header = ({ cartItemCount = 0, onMenuClick }) => {
 
           {/* Navigation Icons */}
           <div className="flex items-center gap-4">
+<button
+              onClick={logout}
+              className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"
+              title="Logout"
+            >
+              <ApperIcon name="LogOut" size={24} />
+              <span className="hidden md:inline text-sm">Logout</span>
+            </button>
+            
             <Link
               to="/cart"
               className="relative p-2 text-white hover:bg-white/10 rounded-lg transition-colors"

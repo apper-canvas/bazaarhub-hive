@@ -7,7 +7,7 @@ const CartSidebar = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => 
   const navigate = useNavigate();
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+return cartItems.reduce((total, item) => total + (item.price_c * item.quantity), 0);
   };
 
   const handleCheckout = () => {
@@ -67,16 +67,16 @@ const CartSidebar = ({ cartItems, onUpdateQuantity, onRemoveItem, onClose }) => 
                   className="flex gap-4 p-4 bg-gray-50 rounded-lg"
                 >
                   <img
-                    src={item.images[0]}
-                    alt={item.title}
+src={item.images_c[0]}
+                    alt={item.title_c}
                     className="w-20 h-20 object-cover rounded-lg"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
-                      {item.title}
+<h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
+                      {item.title_c}
                     </h3>
                     <p className="text-lg font-bold text-primary mb-2">
-                      ₹{item.price.toLocaleString()}
+                      ₹{item.price_c.toLocaleString()}
                     </p>
                     <div className="flex items-center gap-2">
                       <button

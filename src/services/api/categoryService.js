@@ -1,20 +1,64 @@
-import categoriesData from "@/services/mockData/categories.json";
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import { getApperClient } from "@/services/apperClient";
 
 const categoryService = {
   async getAll() {
-    await delay(200);
-    return [...categoriesData];
+    try {
+      const apperClient = getApperClient();
+      
+      const response = await apperClient.fetchRecords("category_c", {
+        fields: [
+          { field: { Name: "name_c" } },
+          { field: { Name: "product_count_c" } },
+          { field: { Name: "subcategories_c" } }
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      // Parse subcategories from JSON string to array
+      return response.data.map(cat => ({
+        ...cat,
+        name: cat.name_c,
+        productCount: cat.product_count_c,
+        subcategories: cat.subcategories_c ? JSON.parse(cat.subcategories_c) : []
+      }));
+    } catch (error) {
+      console.error("Error fetching categories:", error?.response?.data?.message || error);
+      return [];
+    }
   },
 
   async getById(id) {
-    await delay(200);
-    const category = categoriesData.find((c) => c.Id === parseInt(id));
-    if (!category) {
-      throw new Error("Category not found");
+    try {
+      const apperClient = getApperClient();
+      
+      const response = await apperClient.getRecordById("category_c", parseInt(id), {
+        fields: [
+          { field: { Name: "name_c" } },
+          { field: { Name: "product_count_c" } },
+          { field: { Name: "subcategories_c" } }
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      const cat = response.data;
+      return {
+        ...cat,
+        name: cat.name_c,
+        productCount: cat.product_count_c,
+        subcategories: cat.subcategories_c ? JSON.parse(cat.subcategories_c) : []
+      };
+    } catch (error) {
+      console.error(`Error fetching category ${id}:`, error?.response?.data?.message || error);
+      return null;
     }
-    return { ...category };
   }
 };
 

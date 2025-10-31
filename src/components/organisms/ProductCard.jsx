@@ -23,13 +23,13 @@ const ProductCard = ({ product, onAddToCart }) => {
           {/* Product Image */}
           <div className="relative aspect-square overflow-hidden bg-gray-100">
             <img
-              src={product.images[0]}
-              alt={product.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+src={product.images_c[0]}
+              alt={product.title_c}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            {product.originalPrice > product.price && (
+            {product.original_price_c > product.price_c && (
               <Badge variant="danger" className="absolute top-3 right-3">
-                {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                {Math.round(((product.original_price_c - product.price_c) / product.original_price_c) * 100)}% OFF
               </Badge>
             )}
             {!product.inStock && (
@@ -44,23 +44,23 @@ const ProductCard = ({ product, onAddToCart }) => {
           {/* Product Info */}
           <div className="p-4 space-y-3">
             <div>
-              <p className="text-xs text-gray-500 mb-1">{product.brand}</p>
+<p className="text-xs text-gray-500 mb-1">{product.brand_c}</p>
               <h3 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
-                {product.title}
+                {product.title_c}
               </h3>
             </div>
 
-            <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
+<RatingStars rating={product.rating_c} reviewCount={product.review_count_c} />
 
-            <PriceDisplay price={product.price} originalPrice={product.originalPrice} />
+            <PriceDisplay price={product.price_c} originalPrice={product.original_price_c} />
 
             <Button
-              onClick={handleAddToCart}
-              disabled={!product.inStock}
+onClick={handleAddToCart}
+              disabled={!product.in_stock_c}
               className="w-full"
             >
               <ApperIcon name="ShoppingCart" size={18} />
-              {product.inStock ? "Add to Cart" : "Out of Stock"}
+              {product.in_stock_c ? "Add to Cart" : "Out of Stock"}
             </Button>
           </div>
         </div>

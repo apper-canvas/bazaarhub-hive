@@ -48,13 +48,15 @@ const ProductDetail = ({ product, onAddToCart, onClose }) => {
                 key={selectedImage}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                src={product.images[selectedImage]}
-                alt={product.title}
-                className="w-full h-full object-cover"
+src={product.images_c[selectedImage]}
+                alt={product.title_c}
+                className="w-full h-full object-contain"
               />
             </div>
-            <div className="grid grid-cols-4 gap-4">
-              {product.images.map((image, index) => (
+
+            {/* Thumbnail Images */}
+            <div className="grid grid-cols-4 gap-2">
+              {product.images_c.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -77,28 +79,28 @@ const ProductDetail = ({ product, onAddToCart, onClose }) => {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <p className="text-sm text-gray-500 mb-2">{product.brand}</p>
+<p className="text-sm text-gray-500 mb-2">{product.brand_c}</p>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                {product.title}
+                {product.title_c}
               </h1>
-              <RatingStars rating={product.rating} reviewCount={product.reviewCount} size={20} />
+              <RatingStars rating={product.rating_c} reviewCount={product.review_count_c} size={20} />
             </div>
 
-            <PriceDisplay
-              price={product.price}
-              originalPrice={product.originalPrice}
-              className="py-4 border-y border-gray-200"
+<PriceDisplay
+              price={product.price_c}
+              originalPrice={product.original_price_c}
+              className="text-3xl"
             />
 
             <div>
-              <Badge variant={product.inStock ? "success" : "danger"}>
+              <Badge variant={product.in_stock_c ? "success" : "danger"}>
                 {product.inStock ? "In Stock" : "Out of Stock"}
               </Badge>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-              <p className="text-gray-700 leading-relaxed">{product.description}</p>
+<p className="text-gray-700 leading-relaxed">{product.description_c}</p>
             </div>
 
             <div>
@@ -140,12 +142,12 @@ const ProductDetail = ({ product, onAddToCart, onClose }) => {
 
               <Button
                 onClick={handleAddToCart}
-                disabled={!product.inStock}
+disabled={!product.in_stock_c}
                 className="w-full"
                 size="lg"
               >
                 <ApperIcon name="ShoppingCart" size={20} />
-                {product.inStock ? "Add to Cart" : "Out of Stock"}
+                {product.in_stock_c ? "Add to Cart" : "Out of Stock"}
               </Button>
             </div>
           </div>
