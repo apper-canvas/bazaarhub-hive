@@ -28,7 +28,7 @@ const productService = {
       }
 
       // Parse JSON fields and map to expected format
-      return response.data.map(p => ({
+return response.data.map(p => ({
         Id: p.Id,
         title: p.title_c,
         title_c: p.title_c,
@@ -50,10 +50,28 @@ const productService = {
         review_count_c: p.review_count_c,
         inStock: p.in_stock_c,
         in_stock_c: p.in_stock_c,
-        specifications: p.specifications_c ? JSON.parse(p.specifications_c) : {},
+        specifications: (() => {
+          try {
+            return p.specifications_c ? JSON.parse(p.specifications_c) : {};
+          } catch {
+            return {};
+          }
+        })(),
         specifications_c: p.specifications_c,
-        images: p.images_c ? JSON.parse(p.images_c) : [],
-        images_c: p.images_c ? JSON.parse(p.images_c) : []
+        images: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })(),
+        images_c: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })()
       }));
     } catch (error) {
       console.error("Error fetching products:", error?.response?.data?.message || error);
@@ -88,7 +106,7 @@ const productService = {
       }
 
       const p = response.data;
-      return {
+return {
         Id: p.Id,
         title: p.title_c,
         title_c: p.title_c,
@@ -110,10 +128,28 @@ const productService = {
         review_count_c: p.review_count_c,
         inStock: p.in_stock_c,
         in_stock_c: p.in_stock_c,
-        specifications: p.specifications_c ? JSON.parse(p.specifications_c) : {},
+        specifications: (() => {
+          try {
+            return p.specifications_c ? JSON.parse(p.specifications_c) : {};
+          } catch {
+            return {};
+          }
+        })(),
         specifications_c: p.specifications_c,
-        images: p.images_c ? JSON.parse(p.images_c) : [],
-        images_c: p.images_c ? JSON.parse(p.images_c) : []
+        images: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })(),
+        images_c: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })()
       };
     } catch (error) {
       console.error(`Error fetching product ${id}:`, error?.response?.data?.message || error);
@@ -154,7 +190,7 @@ const productService = {
         return [];
       }
 
-      return response.data.map(p => ({
+return response.data.map(p => ({
         Id: p.Id,
         title: p.title_c,
         title_c: p.title_c,
@@ -176,10 +212,28 @@ const productService = {
         review_count_c: p.review_count_c,
         inStock: p.in_stock_c,
         in_stock_c: p.in_stock_c,
-        specifications: p.specifications_c ? JSON.parse(p.specifications_c) : {},
+        specifications: (() => {
+          try {
+            return p.specifications_c ? JSON.parse(p.specifications_c) : {};
+          } catch {
+            return {};
+          }
+        })(),
         specifications_c: p.specifications_c,
-        images: p.images_c ? JSON.parse(p.images_c) : [],
-        images_c: p.images_c ? JSON.parse(p.images_c) : []
+        images: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })(),
+        images_c: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })()
       }));
     } catch (error) {
       console.error("Error searching products:", error?.response?.data?.message || error);
@@ -296,7 +350,7 @@ const productService = {
         return [];
       }
 
-      return response.data.map(p => ({
+return response.data.map(p => ({
         Id: p.Id,
         title: p.title_c,
         title_c: p.title_c,
@@ -318,10 +372,28 @@ const productService = {
         review_count_c: p.review_count_c,
         inStock: p.in_stock_c,
         in_stock_c: p.in_stock_c,
-        specifications: p.specifications_c ? JSON.parse(p.specifications_c) : {},
+        specifications: (() => {
+          try {
+            return p.specifications_c ? JSON.parse(p.specifications_c) : {};
+          } catch {
+            return {};
+          }
+        })(),
         specifications_c: p.specifications_c,
-        images: p.images_c ? JSON.parse(p.images_c) : [],
-        images_c: p.images_c ? JSON.parse(p.images_c) : []
+        images: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })(),
+        images_c: (() => {
+          try {
+            return p.images_c ? JSON.parse(p.images_c) : [];
+          } catch {
+            return [];
+          }
+        })()
       }));
     } catch (error) {
       console.error("Error filtering products:", error?.response?.data?.message || error);
