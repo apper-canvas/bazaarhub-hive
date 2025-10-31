@@ -33,7 +33,7 @@ const productService = {
     );
   },
 
-  async filterProducts(filters) {
+async filterProducts(filters, sortBy = null) {
     await delay(300);
     let filtered = [...productsData];
 
@@ -59,6 +59,28 @@ const productService = {
 
     if (filters.inStockOnly) {
       filtered = filtered.filter((p) => p.inStock === true);
+    }
+// Apply sorting if specified
+    if (sortBy && sortBy.criteria) {
+      filtered.sort((a, b) => {
+        let compareValue = 0;
+        
+        switch (sortBy.criteria) {
+          case 'price':
+            compareValue = a.price - b.price;
+            break;
+          case 'rating':
+            compareValue = a.rating - b.rating;
+            break;
+          case 'name':
+            compareValue = a.name.localeCompare(b.name);
+            break;
+          default:
+            compareValue = 0;
+        }
+        
+        return sortBy.direction === 'desc' ? -compareValue : compareValue;
+      });
     }
 
     return filtered;

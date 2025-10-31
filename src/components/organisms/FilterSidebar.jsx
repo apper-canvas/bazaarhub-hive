@@ -59,7 +59,7 @@ const FilterSidebar = ({ filters, onFilterChange, onClose }) => {
     });
   };
 
-  const clearAllFilters = () => {
+const clearAllFilters = () => {
     onFilterChange({
       category: "All",
       subcategory: null,

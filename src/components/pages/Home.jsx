@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, useOutletContext } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useOutletContext, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AnimatePresence, motion } from "framer-motion";
 import productService from "@/services/api/productService";
+import ApperIcon from "@/components/ApperIcon";
 import ProductCard from "@/components/organisms/ProductCard";
 import FilterSidebar from "@/components/organisms/FilterSidebar";
 import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import { toast } from "react-toastify";
-import { motion, AnimatePresence } from "framer-motion";
+import Error from "@/components/ui/Error";
 
 const Home = () => {
   const { onAddToCart } = useOutletContext();
@@ -17,7 +17,7 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [filters, setFilters] = useState({
     category: "All",
     subcategory: null,
@@ -25,6 +25,10 @@ const Home = () => {
     maxPrice: undefined,
     minRating: undefined,
     inStockOnly: false
+  });
+  const [sortBy, setSortBy] = useState({
+    criteria: null,
+    direction: 'asc'
   });
 
   useEffect(() => {
@@ -36,9 +40,9 @@ const Home = () => {
     if (searchQuery) {
       searchProducts(searchQuery);
     } else {
-      applyFilters();
+applyFilters();
     }
-  }, [products, filters, searchParams]);
+  }, [products, filters, searchParams, sortBy]);
 
   const loadProducts = async () => {
     try {
@@ -66,9 +70,9 @@ const Home = () => {
     }
   };
 
-  const applyFilters = async () => {
+const applyFilters = async () => {
     try {
-      const filtered = await productService.filterProducts(filters);
+      const filtered = await productService.filterProducts(filters, sortBy);
       setFilteredProducts(filtered);
     } catch (err) {
       console.error("Filter error:", err);
@@ -96,9 +100,9 @@ const Home = () => {
     );
   }
 
-  return (
+return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="text-3xl font-bold text-gray-900">
           {searchParams.get("search") 
             ? `Search Results for "${searchParams.get("search")}"`
@@ -106,15 +110,40 @@ const Home = () => {
               ? "All Products" 
               : filters.category}
         </h1>
-        <button
-          onClick={() => setShowMobileFilters(true)}
-          className="lg:hidden inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
-        >
-          <ApperIcon name="SlidersHorizontal" size={20} />
-          Filters
-        </button>
+        
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600 hidden sm:inline">Sort by:</span>
+          <select
+            value={sortBy.criteria ? `${sortBy.criteria}-${sortBy.direction}` : 'default'}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === 'default') {
+                setSortBy({ criteria: null, direction: 'asc' });
+              } else {
+                const [criteria, direction] = value.split('-');
+                setSortBy({ criteria, direction });
+              }
+            }}
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors cursor-pointer min-w-[180px]"
+          >
+            <option value="default">Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating-desc">Rating: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+          </select>
+        </div>
       </div>
 
+      <button
+        onClick={() => setShowMobileFilters(true)}
+        className="lg:hidden inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transition-all mb-6"
+      >
+        <ApperIcon name="SlidersHorizontal" size={20} />
+        Filters
+      </button>
       <div className="flex gap-8">
         {/* Desktop Filters */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
@@ -161,14 +190,17 @@ const Home = () => {
               message="No products found"
               description="Try adjusting your filters or search criteria"
               actionLabel="Clear Filters"
-              onAction={() => setFilters({
-                category: "All",
-                subcategory: null,
-                minPrice: undefined,
-                maxPrice: undefined,
-                minRating: undefined,
-                inStockOnly: false
-              })}
+onAction={() => {
+                setFilters({
+                  category: "All",
+                  subcategory: null,
+                  minPrice: undefined,
+                  maxPrice: undefined,
+                  minRating: undefined,
+                  inStockOnly: false
+                });
+                setSortBy({ criteria: null, direction: 'asc' });
+              }}
             />
           ) : (
             <motion.div
